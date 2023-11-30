@@ -1,64 +1,60 @@
-alert("BIENVENIDO A CALCUGRASOMETRO");
-alert("Te gustaría saber si estás listo para el VERANO o para una liposucción?");
-
 function calcularIMC(peso, altura) {
     const alturaMetros = altura / 100;
     const imc = peso / (alturaMetros * alturaMetros);
     return imc.toFixed(2);
 }
-
 function calcularPesoSaludable(altura) {
     const alturaMetros = altura / 100;
     const pesoBajo = 18.5 * alturaMetros * alturaMetros;
     const pesoAlto = 24.9 * alturaMetros * alturaMetros;
-
     return {
         pesoBajo: pesoBajo.toFixed(2),
         pesoAlto: pesoAlto.toFixed(2)
     };
 }
-
-
 function calcularIMCSimulador() {
-    let peso, altura;
-    let inputValido = false;
+    const pesoInput = document.getElementById('pesoInput').value;
+    const alturaInput = document.getElementById('alturaInput').value;
 
-    while (!inputValido) {
-        peso = parseFloat(prompt("Introduce tu peso en kilogramos:"));
-        altura = parseFloat(prompt("Introduce tu altura en centímetros:"));
+    if (pesoInput && alturaInput) {
+        const peso = parseFloat(pesoInput);
+        const altura = parseFloat(alturaInput);
 
-        if (!isNaN(peso) && !isNaN(altura) && peso > 0 && altura > 0) {
-            inputValido = true;
+        const imc = calcularIMC(peso, altura);
+        document.getElementById('output').innerHTML = "Tu índice de masa corporal (IMC) es: " + imc;
+
+        if (imc < 18.5) {
+            document.getElementById('output').innerHTML += "<br>Estás flaco para el verano";
+        } else if (imc >= 18.5 && imc < 24.9) {
+            document.getElementById('output').innerHTML += "<br>Estás en tu punto para el verano";
+        } else if (imc >= 25 && imc < 29.9) {
+            document.getElementById('output').innerHTML += "<br>Estás para un retoque con el cirujano";
         } else {
-            console.log("Por favor, introduce valores válidos para peso y altura.");
+            document.getElementById('output').innerHTML += "<br>Qué te panzas, dale párate y camina que estás OBES@";
         }
-    }
 
-    const imc = calcularIMC(peso, altura);
-    console.log("Tu índice de masa corporal (IMC) es: " + imc);
+        const pesosSaludables = calcularPesoSaludable(altura);
+        document.getElementById('output').innerHTML += "<br>Para una altura de " + altura + " cm, el peso saludable debería estar entre " + pesosSaludables.pesoBajo + " kg y " + pesosSaludables.pesoAlto + " kg.";
 
-    if (imc < 18.5) {
-        console.log("Estás flaco para el verano");
-    } else if (imc >= 18.5 && imc < 24.9) {
-        console.log("Estás en tu punto para el verano");
-    } else if (imc >= 25 && imc < 29.9) {
-        console.log("Estás para un retoque con el cirujano");
+        const datoUsuario = {
+            peso: peso,
+            altura: altura,
+            imc: imc
+        };
+
+        localStorage.setItem('datoUsuario', JSON.stringify(datoUsuario));
     } else {
-        console.log("Qué te panzas, dale párate y camina que estás OBES@");
+        document.getElementById('output').innerHTML = "Por favor, introduce valores válidos para peso y altura.";
     }
-
-    const pesosSaludables = calcularPesoSaludable(altura)
-    console.log("Para una altura de " + altura + " cm, el peso saludable debería estar entre " + pesosSaludables.pesoBajo + " kg y " + pesosSaludables.pesoAlto + " kg.");
 }
 
-calcularIMCSimulador();
 const rutinas = [
     {
         parteCuerpo: "Piernas",
         ejercicios: [
             { nombre: "Sentadillas", rondas: 3, repeticiones: 15 },
-            { nombre: "Prensa de piernas", rondas: 3, repeticiones: 15},
-            { nombre: "Bulgaras", rondas: 2, repeticiones: 20},
+            { nombre: "Prensa de piernas", rondas: 3, repeticiones: 15 },
+            { nombre: "Bulgaras", rondas: 2, repeticiones: 20 },
         ],
         modelo: "B"
     },
@@ -67,7 +63,7 @@ const rutinas = [
         ejercicios: [
             { nombre: "Dominadas", rondas: 3, repeticiones: 15 },
             { nombre: "Remo con barra", rondas: 3, repeticiones: 15 },
-            { nombre: "Pulldowns", rondas: 3, repeticiones: 15},
+            { nombre: "Pulldowns", rondas: 3, repeticiones: 15 },
         ],
         modelo: "B"
     },
@@ -87,7 +83,7 @@ const rutinas = [
             { nombre: "Tríceps en polea", rondas: 3, repeticiones: 15 },
             { nombre: "Martillo", rondas: 3, repeticiones: 15 },
         ],
-        modelo: "A" 
+        modelo: "A"
     },
     {
         parteCuerpo: "Abdominales",
@@ -103,44 +99,53 @@ const rutinas = [
         ejercicios: [
             { nombre: "SaltarSoga", rondas: 3, Tiempomin: 10 },
             { nombre: "SombraBox", rondas: 3, Tiempomin: 1 },
-            { nombre: "Sprint HIT", rondas: 2, Tiemposeg: 30},
+            { nombre: "Sprint HIT", rondas: 2, Tiemposeg: 30 },
         ],
         modelo: "C"
     },
 ];
 
-let modelo = prompt("Ingresa modelo de rutina de ejercicio (A, B o C) ");
-let parteCuerpo = prompt("Ingrese la parte del cuerpo que le interesaría saber la rutina");
+let modeloInput = document.getElementById('modeloInput');
+let parteCuerpoInput = document.getElementById('parteCuerpoInput');
 
 function mostrarRutinas(rutinas) {
-    rutinas.forEach((rutina) => console.log(rutina.modelo + " - " + rutina.parteCuerpo + " - " + JSON.stringify(rutina.ejercicios)));
+    let output = "";
+    rutinas.forEach((rutina) => output += rutina.modelo + " - " + rutina.parteCuerpo + " - " + JSON.stringify(rutina.ejercicios) + "<br>");
+    document.getElementById('output').innerHTML = output;
 }
 
 function filtrarRutinas() {
+    const modelo = modeloInput.value;
+    const parteCuerpo = parteCuerpoInput.value;
+
     const resultado = rutinas
         .filter(filtrarModelo)
         .filter(filtrarParteCuerpo);
     if (resultado.length > 0) {
         mostrarRutinas(resultado);
     } else {
-        alert("No hay rutinas disponibles para el modelo y la parte del cuerpo especificados.");
+        document.getElementById('output').innerHTML = "No hay rutinas disponibles para el modelo y la parte del cuerpo especificados.";
     }
 }
 
 function filtrarModelo(rutina) {
-    if (modelo) {
-        return rutina.modelo === modelo;
+    if (modeloInput.value) {
+        return rutina.modelo === modeloInput.value;
     }
     return rutina;
 }
 
 function filtrarParteCuerpo(rutina) {
-    if (parteCuerpo) {
-        return rutina.parteCuerpo.toLowerCase() === parteCuerpo.toLowerCase();
+    if (parteCuerpoInput.value) {
+        return rutina.parteCuerpo.toLowerCase() === parteCuerpoInput.value.toLowerCase();
     }
     return rutina;
 }
+console.log("En 90 dias veras el cambio CAMPEON@");
+const storedDatoUsuario = localStorage.getItem('datoUsuario');
+if (storedDatoUsuario) {
+    const datoUsuario = JSON.parse(storedDatoUsuario);
+    document.getElementById('output').innerHTML += "<br>Ultimo calculo hecho: Peso - " + datoUsuario.peso + ", Altura - " + datoUsuario.altura + ", IMC - " + datoUsuario.imc;
+}
 
-filtrarRutinas();
-console.log("En 90 dias veras el cambio CAMPEON@")
-alert("Espero que el resultado te motive y no te mates. ¡Mucha suerte!");
+document.getElementById('output').innerHTML += "<br>Espero que el resultado te motive y no te mates. ¡Mucha suerte!";

@@ -1,40 +1,64 @@
+
 body {
+    font-family: 'Arial', sans-serif;
     display:grid;
+    grid-row: 6;
+    background-color: #ffffff;
+    color: #e8e8e8;
+    margin: 20px;
     background-image: url("img/fondo.jpg");
     background-repeat: no-repeat;
     background-size:cover ;
     text-align: center;
     margin-top: 350px;
 }
-h1 {
-    font-size: 70px;
-    color: rgb(234, 234, 234);
-    font-weight: bolder
-}
-h2{
-    font-size: 30px;
-    text-transform: uppercase;
-    color: rgb(228, 34, 34);
-}
-h3 {
-    color: rgb(255, 255, 255);
-    text-transform: uppercase;
-}
-div {
-    background-color: rgb(36, 36, 36);
+.table {
+    background-color: rgb(32, 32, 32);
     opacity: 90%;
    margin: .5px;
 }
-.boton {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 20px;
-    background-color: #ff0000;
-    color: #ffffff;
-    text-decoration: none;
-    border-radius: 5px;
+h1 {
+    font-size: 30px;
+    text-align: center;
+    color: red;
 }
 
-.boton:hover {
+p {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input {
+    width: 30%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    text-transform: uppercase;
+    display: inline-block;
+    width: 100%;
+   padding: 20px;
     background-color: #000000;
+    color: #ffffff;
+    border: 50%;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #676565;
+}
+
+#output {
+    font-size: 22px;
+    text-align: center;
+    background-color: rgb(149, 14, 14);
+    margin-bottom: 10px;
+    padding: 20px;
 }

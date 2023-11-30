@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CALCUGRASOMETRO</title>
+    <link rel="shortcut icon" href="img/coraje.png" type="image/x-icon">
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
     <!-- JS -->
@@ -13,20 +14,30 @@
 
 <body>
     <Main>
-        <section >
+        <section class="table">
             <div class="Text">
-                <h1> CALCUGRASOMETRO </h1>
-                <H2> Porfavor siga los siguientes pasos </H2>
-                <h3> Para visualisar los resultados habra el "inspecionar" con click derecho</h3>
-                <h3>Luego habra la sección de consola </h3>
-                <h2> SE LE BRINDARA 3 MODELOS DE RUTINAS</h2>
-                <h3> Las cuales hara interdiariamente </h3>
-                <h3> Lunes : Modelo A ; Miercoles: modelo B ... etc</h3>
-                <h3> El modelo C es opcional solo al final de cada entrenamiento o entre los dias A y B </h3>
-                <div class="boton">
-                    <a href="index.html">VOLVER A CALCULAR?</a>
-                </div>
-                
+                <h1>BIENVENIDO A CALCUGRASOMETRO</h1>
+                <p>Te gustaría saber si estás listo para el VERANO o para una liposucción?</p>
+
+                <label for="pesoInput">Peso en kilogramos:</label>
+                <input type="text" id="pesoInput">
+
+                <label for="alturaInput">Altura en centímetros:</label>
+                <input type="text" id="alturaInput">
+
+                <button onclick="calcularIMCSimulador()">Calcular IMC</button>
+
+                <label for="modeloInput">Ingresa modelo de rutina de ejercicio (A, B o C):</label>
+                <input type="text" id="modeloInput">
+
+                <label for="parteCuerpoInput">Ingrese la parte del cuerpo que le interesaría saber la rutina:</label>
+                <input type="text" id="parteCuerpoInput">
+
+                <button onclick="filtrarRutinas()">Mostrar Rutinas</button>
+
+                <div id="output"></div>
+
+
             </div>
         </section>
     </Main>
