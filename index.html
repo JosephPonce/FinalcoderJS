@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="style.css">
     <!-- JS -->
     <script src="main.js" defer></script>
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 </head>
 
 <body>
@@ -36,12 +38,48 @@
                 <button onclick="filtrarRutinas()">Mostrar Rutinas</button>
 
                 <div id="output"></div>
+                <label for="">QUIERES SABER SI SALIR A CORRER O CARDIO EN CASA? DINOS EN QUE CIUDAD VIVES...</label>
+                <input type="text" id="ciudad">
+                <button id="btn">Obtener Clima</button>
 
+                <output>
+                    <p id="temperatura"></p>
+                </output>
 
             </div>
         </section>
     </Main>
 
+    <script>
+        const btn = document.querySelector('#btn')
+
+        btn.addEventListener('click', async () => {
+            const key = "409ec6d5313c32a17da47c7db7528e31";
+            let ciudad = document.querySelector('#ciudad').value
+            ciudad = encodeURIComponent(ciudad)
+
+            if (ciudad !== "") {
+                let url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${key}`
+
+                try {
+                    const response = await fetch(url);
+                    const clima = await response.json();
+
+                    let temp = clima.main.temp;
+                    let tempC = temp - 273.13;
+                    document.querySelector('#temperatura').innerHTML = tempC.toFixed(0) + "º";
+
+                    if (tempC < 10) {
+                        document.querySelector('#temperatura').className = 'cold'
+                    } else {
+                        document.querySelector('#temperatura').className = 'warm'
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        });
+    </script>
 
 </body>
 
